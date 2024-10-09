@@ -3569,7 +3569,7 @@
 									"    pm.variables.set(\"quantity\", storeData.quantity);\r",
 									"    pm.variables.set(\"complete\", storeData.complete);\r",
 									"} else {\r",
-									"    postman.setNextRequest(null); // Skip if not \"Store\"\r",
+									"    pm.execution.setNextRequest(null); // Skip if not \"Store\"\r",
 									"}\r",
 									""
 								]
@@ -3789,7 +3789,7 @@
 									"    pm.variables.set(\"phone\", userData.phone);\r",
 									"    pm.variables.set(\"userStatus\", userData.userStatus);\r",
 									"} else {\r",
-									"    postman.setNextRequest(null); // Skip if not \"User\"\r",
+									"    pm.execution.setNextRequest(null); // Skip if not \"User\"\r",
 									"}\r",
 									""
 								]
