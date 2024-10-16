@@ -1,26 +1,17 @@
-name: Automated API Tests using Postman CLI and Github action
+name: Automated API tests using Postman CLI
 
 on: push
 
 jobs:
   automated-api-tests:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
       - name: Install Postman CLI
         run: |
-          curl -L https://dl-cli.pstmn.io/install/linux64.sh | sh
-
+          curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
       - name: Login to Postman CLI
         run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
-
-      - name: Run API tests on each data file
+      - name: Run API tests
         run: |
-          for file in DataFiles/*.json; do
-            echo "Running tests with data file: $file"
-            postman collection run PetStoreAPI_Tests.postman_collection.json \
-            --iteration-data "$file"
-          done
+          postman collection run "31937813-2dba78e8-4f0d-43f7-a499-ebe90a11c683"
