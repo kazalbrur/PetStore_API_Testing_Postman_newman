@@ -23,7 +23,10 @@ jobs:
       # Step 4: Run the Postman collection with iteration count
       - name: Run Postman Collection
         run: |
+         for file in DataFiles/*.json; do
+            echo "Running tests with data file: $file"
           newman run PetStoreAPI_Tests.postman_collection.json \
           --iteration-count 3 \
+          --iteration-data "$file"
           --reporters cli,html \
           --reporter-html-export JenkinsReport/newman-report.html
