@@ -1,4 +1,4 @@
-name: Automated API tests using Postman CLI
+name: Automated API tests using Newman
 
 on: push
 
@@ -6,16 +6,24 @@ jobs:
   automated-api-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Install Postman CLI
+      # Step 1: Check out the repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Node.js (Newman requires Node.js)
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # Specify the Node.js version
+
+      # Step 3: Install Newman
+      - name: Install Newman
+        run: npm install -g newman
+
+      # Step 4: Run the Postman collection with iteration count
+      - name: Run Postman Collection
         run: |
-          curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
-      - name: Login to Postman CLI
-        run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
-      - name: Run API tests on each data file
-        run: |
-          for file in DataFiles/*.json; do
-            echo "Running tests with data file: $file"
-           postman collection run "PetStoreAPI_Tests.postman_collection.json" \
-            --iteration-data "$file"
-          done
+          newman run PetStoreAPI_Tests.postman_collection.json \
+          --iteration-count 3 \
+          --reporters cli,html \
+          --reporter-html-export JenkinsReport/newman-report.html
