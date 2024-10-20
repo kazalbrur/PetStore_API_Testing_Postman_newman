@@ -1,82 +1,117 @@
+# PetStore API Testing with Postman and Gihub Action
 
-# Pet Store API Testing
+This repository contains a collection of API tests for the Pet Store API using Postman and Newman. It is designed to automate the process of API testing, ensuring that each endpoint works as expected. The setup integrates with GitHub Actions for continuous testing, providing a streamlined CI/CD workflow.
 
-## Overview
+## Table of Contents
+- [Introduction](#introduction)
+- [Features](#features)
+- [Setup Instructions](#setup-instructions)
+- [Running Tests Locally](#running-tests-locally)
+- [Automated Testing with GitHub Actions](#automated-testing-with-github-actions)
+- [Data-Driven Testing](#data-driven-testing)
+- [Project Structure](#project-structure)
+- [Contributing](#contributing)
+- [License](#license)
 
-This repository contains Postman collections and Newman reports for testing the Pet Store API. The API testing is organized into various test cases covering different aspects of the Pet Store, including pet creation, retrieval, and deletion.
+## Introduction
+
+The **PetStore API Testing** project uses Postman collections to define test cases for various endpoints of a Pet Store API. The tests are executed using [Newman](https://www.npmjs.com/package/newman), a command-line runner for Postman collections, allowing you to automate API testing both locally and through GitHub Actions.
+
+## Features
+
+- **Comprehensive API Tests**: Includes tests for CRUD operations on Pet Store entities.
+- **Automated Testing with GitHub Actions**: Automatically runs tests on every push or pull request to the `main` branch.
+- **Data-Driven Testing**: Supports running tests with multiple data sets for broader test coverage.
+- **Easy Setup**: Simple to clone, install dependencies, and run tests locally or through CI/CD.
+
+## Setup Instructions
+
+Follow these steps to set up the project and run the tests:
+
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/kazalbrur/PetStore_API_Testing_Postman_newman.git
+   cd PetStore_API_Testing_Postman_newman
+   ```
+
+2. **Install Node.js**:
+   Ensure you have Node.js installed on your system. If not, download it from [Node.js official website](https://nodejs.org/).
+
+3. **Install Newman**:
+   Install Newman globally using npm:
+   ```bash
+   npm install -g newman
+   ```
+
+## Running Tests Locally
+
+To run the Postman collection locally using Newman, execute the following command:
+
+```bash
+newman run PetStoreAPI_Tests.postman_collection.json
+```
+
+This command runs all the test cases defined in the `PetStoreAPI_Tests.postman_collection.json` file. You can customize the run by adding options like `--reporters` for HTML or JSON reports.
+
+## Automated Testing with GitHub Actions
+
+This repository is set up with GitHub Actions to automatically run tests on every push or pull request to the `main` branch. The GitHub Actions workflow file is located at `.github/workflows/api-test.yml`.
+
+### Workflow Overview
+
+The GitHub Actions workflow:
+- Checks out the code.
+- Sets up Node.js and installs Newman.
+- Runs the Postman collection using Newman.
+
+To view the results of the workflow:
+1. Go to the **Actions** tab in the GitHub repository.
+2. Select the **API Testing** workflow.
+3. View logs and results of the test runs.
+
+## Data-Driven Testing
+
+The **DataFiles** directory can be used to store data files (JSON/CSV) for data-driven testing. Update the collection to use these files for parameterized tests using the `data` option in Newman:
+
+```bash
+newman run PetStoreAPI_Tests.postman_collection.json --iteration-data DataFiles/testData.json
+```
+
+This command will run the tests using multiple sets of data, as defined in `testData.json`.
 
 ## Project Structure
 
-- **DataFiles/**: Contains JSON files with test data used for data-driven testing.
-  - `PetStore.json`: Test data for pets.
-  - `Store.json`: Test data for store-related operations.
-  - `User.json`: Test data for users.
-
-- **Documentation/**: Contains project documentation.
-  - `PetStoreProjectOverView.pdf`: Overview of the Pet Store project.
-link for the postman Documentation :**https://documenter.getpostman.com/view/28929346/2sAXjSyTm2**
-
-
-
-- **JenkinsReport/**: Contains reports generated from Jenkins builds.
-  - `FunctionalityTests.txt`: Report of functionality tests.
-  - `OrderDataDriven.txt`: Report of data-driven tests related to orders.
-  - `PetDataDriven.txt`: Report of data-driven tests related to pets.
-  - `UserDataDriven.txt`: Report of data-driven tests related to users.
-
-- **PetStoreAPI_Tests.postman_collection.json**: The Postman collection for Pet Store API testing.
-
-- **newman/**: Contains Newman reports.
-  - `newman-FunctionalityTestRun-report-YYYY-MM-DD-HH-MM-SS.html`: Report of functionality tests run using Newman.
-  - `newman-OrderDataDrivenRun-report-YYYY-MM-DD-HH-MM-SS.html`: Report of data-driven tests related to orders run using Newman.
-  - `newman-PetDataDrivenRun-report-YYYY-MM-DD-HH-MM-SS.html`: Report of data-driven tests related to pets run using Newman.
-  - `newman-UserDataDrivenRun-report-YYYY-MM-DD-HH-MM-SS.html`: Report of data-driven tests related to users run using Newman.
-
-## Getting Started
-
-### Prerequisites
-
-- [Postman](https://www.postman.com/downloads/): To import and run the Postman collections.
-- [Newman](https://github.com/postmanlabs/newman): Command-line tool for running Postman collections.
-- [Jenkins](https://www.jenkins.io/): For continuous integration and running tests.
-
-### Running Tests with Postman
-
-1. **Import the Collection**: Open Postman and import the `PetStoreAPI_Tests.postman_collection.json` file.
-2. **Run the Collection**: Select the collection and click "Run" to execute the tests.
-
-### Running Tests with Newman
-
-1. **Install Newman**: If not installed, install Newman using the following command:
-   ```sh
-   npm install -g newman
-
-   ```
-2. **Run the Collection**: Execute the tests using the following command:
-   ```sh
-   newman run PetStoreAPI_Tests.postman_collection.json
-newman run "E:\Postman\PetstoreProject\PetStoreAPI_Tests.postman_collection.json" --folder  "FunctionalityTests" 
-newman run "E:\Postman\PetstoreProject\PetStoreAPI_Tests.postman_collection.json" --folder  "Pet_DataDriven"  --iteration-data "E:\Postman\PetstoreProject\DataFiles\PetStore.json"
-newman run "E:\Postman\PetstoreProject\PetStoreAPI_Tests.postman_collection.json" --folder  "OrderDataDriven"  --iteration-data "E:\Postman\PetstoreProject\DataFiles\Store.json" 
-newman run "E:\Postman\PetstoreProject\PetStoreAPI_Tests.postman_collection.json" --folder  "UserDataDriven"  --iteration-data "E:\Postman\PetstoreProject\DataFiles\User.json"
-
-
-   ```
-
-### Running Tests with Jenkins
-
-1. **Configure Jenkins**: Set up a Jenkins job to execute Newman commands. Ensure that Newman is installed on the Jenkins server.
-2. **Create a Jenkins Pipeline**: Define a pipeline to run the tests and generate reports.
+```
+PetStore_API_Testing_Postman_newman/
+│
+├── .github/
+│   └── workflows/
+│       └── api-test.yml           # GitHub Actions workflow for automated testing
+│
+├── DataFiles/
+│   └── testData.json              # Example data file for data-driven tests
+│
+├── Documentation/
+│   └── guide.md                   # Documentation and setup guide
+│
+├── JenkinsReport/                 # Placeholder for Jenkins reports (if needed)
+│
+├── PetStoreAPI_Tests.postman_collection.json  # Postman collection with API tests
+│
+├── README.md                      # Project overview and instructions (this file)
+│
+└── package.json                   # Node.js package file (if needed for scripts)
+```
 
 ## Contributing
 
-If you want to contribute to this project, please fork the repository and submit a pull request with your changes. Ensure that your changes do not break existing functionality.
+Contributions are welcome! To contribute:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and commit them with a descriptive message.
+4. Submit a pull request to the `main` branch for review.
 
 ## License
 
-This project does not have a specific license. Feel free to use and modify the content as needed, but please note that you are responsible for ensuring compliance with any relevant laws and regulations.
-
-## Contact
-
-For any questions or issues, please contact Arava Venkata Jyothi at [aravavenkatajyothi@gmail.com](mailto:aravavenkatajyothi@gmail.com).
-```
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/kazalbrur/PetStore_API_Testing_Postman_newman/blob/main/LICENSE) file for details.
