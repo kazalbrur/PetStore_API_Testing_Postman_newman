@@ -94,8 +94,6 @@ PetStore_API_Testing_Postman_newman/
 ├── Documentation/
 │   └── guide.md                   # Documentation and setup guide
 │
-├── JenkinsReport/                 # Placeholder for Jenkins reports (if needed)
-│
 ├── PetStoreAPI_Tests.postman_collection.json  # Postman collection with API tests
 │
 ├── README.md                      # Project overview and instructions (this file)
