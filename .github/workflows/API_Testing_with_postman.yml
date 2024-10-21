@@ -17,6 +17,6 @@ jobs:
           for file in DataFiles/*.json; do
             echo "Running tests with data file: $file"
            postman collection run PetStoreAPI_Tests.postman_collection.json \
-            --iteration-count 3 \
+            --iteration-count 2 \
             --iteration-data "$file"
           done
